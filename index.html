@@ -1,0 +1,64 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" integrity="sha512-0SPWAwpC/17yYyZ/4HSllgaK7/gg9OlVozq8K7rf3J8LvCjYEEIfzzpnA2/SSjpGIunCSD18r3UhvDcu/xncWA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js" integrity="sha512-ooSWpxJsiXe6t4+PPjCgYmVfr1NS5QXJACcR/FPpsdm6kqG1FmQ2SVyg2RXeVuCRBLr0lWHnWJP6Zs1Efvxzww==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<div id="container">
+  <div>
+    <input id="file" type="file" name="file" />
+    <img id="image" alt="No Image" />
+  </div>
+
+  <div>
+    <input id="rotate" type="range" value="0" min="-180" max="180" step='0.01'>
+    <input id="rotateValue" value="0" min="-180" max="180" />
+  </div>
+</div>
+
+<style>
+  #container {
+    height: 500px;
+    width: 500px;
+  }
+
+  #image {
+    display: block;
+    max-width: 100%;
+  }
+
+  #rotate {
+    width: 100%;
+  }
+
+  #rotateValue {
+    width: 100%;
+    text-align: center;
+  }
+</style>
+
+<script>
+  let imageElement = document.getElementById('image');
+  let fileElement = document.getElementById('file');
+  let rotateElement = document.getElementById('rotate');
+  let rotateValueElement = document.getElementById('rotateValue');
+
+  let cropper = new Cropper(imageElement);
+
+  fileElement.onchange = function(event) {
+    imageElement.src = URL.createObjectURL(event.target.files[0]);
+    rotateElement.value = 0;
+    rotateValueElement.value = 0;
+
+    cropper.destroy();
+    cropper = new Cropper(imageElement);
+  };
+
+  rotateElement.oninput = function(event) {
+    rotateValueElement.value = event.target.value;
+    cropper.rotateTo(event.target.value);
+  };
+
+  rotateValueElement.onchange = function(event) {
+    rotateElement.value = event.target.value;
+    cropper.rotateTo(event.target.value);
+  };
+
+</script>
